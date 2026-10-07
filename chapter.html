@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our next chapter</title>
+  <style>
+    :root { --rose:#ff477e; --pink:#ff9db8; --ink:#3a1650; --cat:#f7d6ff; --cat-deep:#d6a7ff; --cat-outline:#8b5cf6; --cream:#fffafc; }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      color:var(--ink); font-family:Georgia,serif;
+      background:radial-gradient(circle at top,#f6ecff,#d8b4fe 45%,#a855f7);
+      overflow-x:hidden;
+    }
+    .wrap {
+      position:relative; width:min(900px, 92vw); margin:40px auto; padding:42px 24px 32px;
+      text-align:center; background:rgba(255,255,255,0.36); border:1px solid rgba(255,255,255,0.5);
+      border-radius:28px; box-shadow:0 15px 35px rgba(107,33,168,0.18); z-index:1;
+    }
+    .sky-float {
+      position:fixed; color:#fff4b8; font-size:1.8rem; opacity:0.9; z-index:0; pointer-events:none;
+      transform:scale(0); opacity:0;
+      text-shadow:0 0 12px rgba(255,244,184,0.95);
+    }
+    .sky-float.moon { font-size:3rem; color:#fff0a6; }
+    .sky-float.star { color:#fff; }
+    .sky-float.one, .sky-float.two, .sky-float.three, .sky-float.four { left:0; top:0; }
+    .sky-float.is-popping {
+      animation: popHeart 1.4s cubic-bezier(.2,.8,.3,1) forwards;
+    }
+    @keyframes popHeart {
+      0% { transform:scale(0); opacity:0; }
+      35% { transform:scale(1.35); opacity:1; }
+      55% { transform:scale(0.92); opacity:1; }
+      75% { transform:scale(1.08); opacity:0.95; }
+      100% { transform:scale(0); opacity:0; }
+    }
+    h1 { font-size:clamp(2.3rem,6vw,4.5rem); margin:10px 0 18px; color:#6b21a8; }
+    .message {
+      position:relative; max-width:720px; margin:0 auto; padding:26px 22px;
+      border-radius:22px; background:var(--cream); box-shadow:0 8px 20px rgba(107,33,168,0.12);
+      font-size:clamp(1.1rem,2vw,1.4rem); line-height:1.7;
+      z-index:1;
+    }
+    .cat-scene {
+      position:relative; display:flex; justify-content:space-between; align-items:flex-end; gap:70px;
+      margin:18px auto 10px; max-width:390px; height:165px;
+    }
+    .cat {
+      position:relative; z-index:1; width:120px; height:80px; background:linear-gradient(180deg,var(--cat),var(--cat-deep));
+      border:3px solid var(--cat-outline); border-bottom-width:4px; border-radius:50% 50% 42% 42%;
+      box-shadow:0 8px 15px rgba(107,33,168,0.2), inset 0 -6px 0 rgba(139,92,246,0.15);
+      opacity:0; transform:scale(0.35) translateY(70px); transition:transform .9s cubic-bezier(.2,.7,.2,1.25), opacity .7s ease;
+    }
+    .cat.is-visible {
+      opacity:1; transform:scale(1) translateY(0);
+    }
+    .cat::before, .cat::after {
+      content:""; position:absolute; width:26px; height:26px; background:linear-gradient(180deg,var(--cat),var(--cat-deep)); border:3px solid var(--cat-outline); border-radius:50%; top:-16px;
+    }
+    .cat::before { left:18px; }
+    .cat::after { right:18px; }
+    .cat .ear {
+      position:absolute; width:18px; height:18px; background:linear-gradient(180deg,var(--cat),var(--cat-deep)); border:3px solid var(--cat-outline); top:-17px; border-radius:60% 60% 0 0; transform:rotate(-20deg);
+    }
+    .cat .ear.right { transform:rotate(20deg); right:20px; left:auto; }
+    .cat .ear.left { left:20px; }
+    .cat .face {
+      position:absolute; inset:14px 18px 12px; background:rgba(255,255,255,0.4); border-radius:50%;
+      border:2px solid rgba(139,92,246,0.4);
+    }
+    .cat .eye {
+      position:absolute; width:8px; height:8px; background:#3a1650; border-radius:50%; top:34px; box-shadow:0 0 0 2px rgba(255,255,255,0.35);
+    }
+    .cat .eye.left { left:38px; }
+    .cat .eye.right { right:38px; }
+    .cat.is-winking .eye.right { animation:wink 3.5s ease-in-out; }
+    @keyframes wink {
+      0%, 42%, 55%, 100% { height:8px; transform:scaleY(1); }
+      47%, 50% { height:2px; transform:scaleY(0.75); }
+    }
+    .cat .nose {
+      position:absolute; width:10px; height:10px; background:#ff9db8; border-radius:50% 50% 70% 70%; left:50%; transform:translateX(-50%); top:42px; border:1px solid rgba(107,33,168,0.2);
+    }
+    .cat .whiskers {
+      position:absolute; width:26px; height:2px; background:#6b21a8; border-radius:999px; top:46px; opacity:0.9;
+    }
+    .cat .whiskers.left { left:8px; transform:rotate(-12deg); }
+    .cat .whiskers.right { right:8px; transform:rotate(12deg); }
+    .cat .paw {
+      position:absolute; width:18px; height:24px; bottom:-9px; background:linear-gradient(180deg,#fff,#f3d8ff); border:2px solid rgba(139,92,246,0.45); border-radius:50%;
+    }
+    .cat .flower {
+      position:absolute; bottom:-22px; width:28px; height:56px;
+      pointer-events:none;
+    }
+    .cat .flower.left { left:-6px; }
+    .cat .flower.right { right:-6px; }
+    .cat .flower .stem {
+      position:absolute; left:50%; bottom:0; width:4px; height:25px; background:#5fa76a; transform:translateX(-50%); border-radius:999px;
+    }
+    .cat .flower .bloom {
+      position:absolute; left:50%; bottom:18px; width:20px; height:20px; transform:translateX(-50%); border-radius:50%;
+      background:radial-gradient(circle,#fff9d8 0 16%, #ffb8d3 17% 35%, #ff5d8f 36% 100%);
+      box-shadow:0 0 0 3px rgba(255,255,255,0.3), 0 0 14px rgba(255,93,143,0.45);
+    }
+    .cat .flower .bloom::before,
+    .cat .flower .bloom::after {
+      content:""; position:absolute; inset:0; border-radius:50%;
+      background:radial-gradient(circle, rgba(255,255,255,0.5) 0 25%, transparent 26%);
+    }
+    .cat .flower .bloom::after { transform:rotate(45deg); }
+    .cat .paw.left { left:24px; }
+    .cat .paw.right { right:24px; }
+    .cat .flower.right { display:none; }
+    .cat .flower.left { left:12px; transform:rotate(-18deg); }
+    .back-link { margin-top:28px; display:inline-block; color:#6b21a8; font-weight:600; text-decoration:none; }
+    .back-link:hover { text-decoration:underline; }
+    .sparkles { font-size:2rem; letter-spacing:0.15em; color:#ff5d8f; }
+    .memory-gallery {
+      position:relative; display:flex; justify-content:center; align-items:center; gap:14px; flex-wrap:wrap;
+      max-width:650px; margin:25px auto 0; padding:18px 14px 8px;
+    }
+    .memory-photo {
+      width:150px; height:120px; object-fit:cover; border-radius:18px; border:4px solid rgba(255,255,255,0.9);
+      box-shadow:0 8px 18px rgba(107,33,168,0.12); background:linear-gradient(135deg,#f3e8ff,#fff);
+    }
+    .hamster-corner {
+      position:absolute; top:-14px; width:96px; height:96px; z-index:2;
+      filter:drop-shadow(0 8px 12px rgba(76,29,149,0.16)); animation:hamsterJump 1.8s ease-in-out infinite;
+    }
+    .hamster-corner.left { left:-36px; }
+    .hamster-corner.right { right:-18px; animation-delay:.35s; }
+    @keyframes hamsterJump {
+      0%,100% { transform:translateY(0); }
+      45% { transform:translateY(-18px); }
+      60% { transform:translateY(-18px); }
+    }
+    .hamster-corner .body {
+      position:absolute; left:16px; top:42px; width:58px; height:32px; background:linear-gradient(180deg,#e9d5ff,#c4b5fd);
+      border:3px solid #4c1d95; border-radius:22px 22px 18px 18px; overflow:hidden;
+    }
+    .hamster-corner .head {
+      position:absolute; left:30px; top:17px; width:34px; height:26px; background:linear-gradient(180deg,#f8ebff,#e7d2ff); border:3px solid #4c1d95; border-radius:50%;
+    }
+    .hamster-corner .ear {
+      position:absolute; top:8px; width:12px; height:12px; background:#f7d6ff; border:3px solid #4c1d95; border-radius:50%;
+    }
+    .hamster-corner .ear.left { left:28px; }
+    .hamster-corner .ear.right { left:54px; }
+    .hamster-corner .eye {
+      position:absolute; top:26px; width:5px; height:5px; background:#2d0d4a; border-radius:50%;
+      animation:hamsterEyes 4.5s ease-in-out infinite;
+    }
+    .hamster-corner .eye.left { left:41px; }
+    .hamster-corner .eye.right { left:53px; }
+    @keyframes hamsterEyes {
+      0%,25%,75%,100% { width:5px; height:5px; background:#2d0d4a; border:0; border-radius:50%; }
+      45%,60% { width:12px; height:7px; background:transparent; border-top:3px solid #4c1d95; border-radius:50% 50% 0 0; }
+    }
+    .hamster-corner .snout {
+      position:absolute; left:45px; top:33px; width:12px; height:8px; background:#fdf2ff; border:2px solid #4c1d95; border-radius:50%;
+    }
+    .hamster-corner .whiskers {
+      position:absolute; top:34px; width:16px; height:2px; background:#4c1d95; border-radius:999px;
+    }
+    .hamster-corner .whiskers.left { left:20px; transform:rotate(-18deg); }
+    .hamster-corner .whiskers.right { left:58px; transform:rotate(18deg); }
+    .hamster-corner .paw {
+      position:absolute; width:10px; height:16px; background:#d9bdfd; border:3px solid #4c1d95; border-radius:12px; bottom:12px;
+    }
+    .hamster-corner .paw.left { left:25px; }
+    .hamster-corner .paw.right { left:58px; }
+    .hamster-corner .tail {
+      position:absolute; right:0; top:42px; width:20px; height:10px; border:3px solid #4c1d95; border-left:none; border-radius:0 16px 16px 0; background:#d9bdfd; transform:rotate(18deg);
+    }
+    body { opacity:0; transition:opacity .35s ease; }
+    body.page-visible { opacity:1; }
+    body.page-leaving { opacity:0; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <span class="sky-float moon one">☾</span>
+    <span class="sky-float star two">✦</span>
+    <span class="sky-float star three">✧</span>
+    <span class="sky-float star four">✦</span>
+    <div class="sparkles">✦ ✦ ✦</div>
+    <h1>Our next chapter</h1>
+    <div class="cat-scene" aria-label="Cute cats under the moon and stars">
+      <div class="cat">
+        <span class="ear left"></span>
+        <span class="ear right"></span>
+        <span class="face"></span>
+        <span class="eye left"></span>
+        <span class="eye right"></span>
+        <span class="nose"></span>
+        <span class="whiskers left"></span>
+        <span class="whiskers right"></span>
+        <span class="paw left"></span>
+        <span class="paw right"></span>
+        <span class="flower left"><span class="stem"></span><span class="bloom"></span></span>
+        <span class="flower right"><span class="stem"></span><span class="bloom"></span></span>
+      </div>
+      <div class="cat">
+        <span class="ear left"></span>
+        <span class="ear right"></span>
+        <span class="face"></span>
+        <span class="eye left"></span>
+        <span class="eye right"></span>
+        <span class="nose"></span>
+        <span class="whiskers left"></span>
+        <span class="whiskers right"></span>
+        <span class="paw left"></span>
+        <span class="paw right"></span>
+        <span class="flower left"><span class="stem"></span><span class="bloom"></span></span>
+        <span class="flower right"><span class="stem"></span><span class="bloom"></span></span>
+      </div>
+    </div>
+    <p class="message">
+      As we begin our next chapter, we continue to grow, learn, and make memories with each other that last for a lifetime. I’m excited for all the moments we haven’t experienced yet, the places we’ll go, the dreams we’ll chase, and even the challenges we’ll overcome together.
+      <br><br>
+      The future is a mystery, as we don’t know what it holds for us, but one thing for sure is that no matter what life throws at us, we will continue to choose each other and hold on to what we have, and we will be here by each other’s side always.
+      <br><br>
+      To more of our late-night talks and calls, time spent together, and memories we share, and we will look back at it one day and say, “We made it to the dream we always wanted.” And I’m always happy that it will always be with you, mylovee. 💞
+      <br><br>
+      I am excited for our next chapter of our journey and can’t wait to see what the future holds for us. 💞💞💞
+    </p>
+
+    <div class="memory-gallery" aria-label="Next chapter moments gallery">
+      <div class="hamster-corner left" aria-hidden="true">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="snout"></div>
+        <div class="whiskers left"></div>
+        <div class="whiskers right"></div>
+        <div class="paw left"></div>
+        <div class="paw right"></div>
+        <div class="tail"></div>
+      </div>
+
+      <div class="hamster-corner right" aria-hidden="true">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="snout"></div>
+        <div class="whiskers left"></div>
+        <div class="whiskers right"></div>
+        <div class="paw left"></div>
+        <div class="paw right"></div>
+        <div class="tail"></div>
+      </div>
+
+      <img class="memory-photo" src="Images/skye.jpg.jpg" alt="Next chapter memory 1">
+      <img class="memory-photo" src="Images/the best girl.jpg.jpg" alt="Next chapter memory 2">
+      <img class="memory-photo" src="Images/so prettyjpg.jpg" alt="Next chapter memory 3">
+    </div>
+
+    <p><a class="back-link" href="monthsary.html">← Back to our monthsary</a></p>
+  </main>
+  <script src="chapter.js"></script>
+  <script src="page-transitions.js"></script>
+</body>
+</html>

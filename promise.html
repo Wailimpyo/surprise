@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My promise to you</title>
+  <style>
+    :root { --rose:#ff477e; --pink:#ff9db8; --ink:#3a1650; }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      color:var(--ink); font-family:Georgia,serif;
+      background:radial-gradient(circle at top,#f6ecff,#d8b4fe 45%,#a855f7);
+    }
+    .wrap {
+      width:min(900px, 92vw); margin:40px auto; padding:42px 24px 32px;
+      text-align:center; background:rgba(255,255,255,0.36); border:1px solid rgba(255,255,255,0.5);
+      border-radius:28px; box-shadow:0 15px 35px rgba(107,33,168,0.18); position:relative; z-index:1;
+    }
+    h1 { font-size:clamp(2.3rem,6vw,4.5rem); margin:10px 0 18px; color:#6b21a8; }
+    .message {
+      max-width:720px; margin:0 auto; padding:26px 22px;
+      border-radius:22px; background:#fffafc; box-shadow:0 8px 20px rgba(107,33,168,0.12);
+      font-size:clamp(1.1rem,2vw,1.4rem); line-height:1.7;
+    }
+    .back-link { margin-top:28px; display:inline-block; color:#6b21a8; font-weight:600; text-decoration:none; }
+    .back-link:hover { text-decoration:underline; }
+    .sparkles { font-size:2rem; letter-spacing:0.15em; color:#ff5d8f; }
+    .memory-gallery {
+      position:relative; display:flex; justify-content:center; align-items:center; gap:14px; flex-wrap:wrap;
+      max-width:650px; margin:25px auto 0; padding:18px 14px 8px;
+    }
+    .memory-photo {
+      width:150px; height:120px; object-fit:cover; border-radius:18px; border:4px solid rgba(255,255,255,0.9);
+      box-shadow:0 8px 18px rgba(107,33,168,0.12); background:linear-gradient(135deg,#f3e8ff,#fff);
+    }
+    .hamster-corner {
+      position:absolute; top:-14px; width:96px; height:96px; z-index:2;
+      filter:drop-shadow(0 8px 12px rgba(76,29,149,0.16)); animation:hamsterJump 1.8s ease-in-out infinite;
+    }
+    .hamster-corner.left { left:-36px; }
+    .hamster-corner.right { right:-18px; animation-delay:.35s; }
+    @keyframes hamsterJump {
+      0%,100% { transform:translateY(0); }
+      45% { transform:translateY(-18px); }
+      60% { transform:translateY(-18px); }
+    }
+    .hamster-corner .body {
+      position:absolute; left:16px; top:42px; width:58px; height:32px; background:linear-gradient(180deg,#e9d5ff,#c4b5fd);
+      border:3px solid #4c1d95; border-radius:22px 22px 18px 18px; overflow:hidden;
+    }
+    .hamster-corner .head {
+      position:absolute; left:30px; top:17px; width:34px; height:26px; background:linear-gradient(180deg,#f8ebff,#e7d2ff); border:3px solid #4c1d95; border-radius:50%;
+    }
+    .hamster-corner .ear {
+      position:absolute; top:8px; width:12px; height:12px; background:#f7d6ff; border:3px solid #4c1d95; border-radius:50%;
+    }
+    .hamster-corner .ear.left { left:28px; }
+    .hamster-corner .ear.right { left:54px; }
+    .hamster-corner .eye {
+      position:absolute; top:26px; width:5px; height:5px; background:#2d0d4a; border-radius:50%;
+      animation:hamsterEyes 4.5s ease-in-out infinite;
+    }
+    .hamster-corner .eye.left { left:41px; }
+    .hamster-corner .eye.right { left:53px; }
+    @keyframes hamsterEyes {
+      0%,25%,75%,100% { width:5px; height:5px; background:#2d0d4a; border:0; border-radius:50%; }
+      45%,60% { width:12px; height:7px; background:transparent; border-top:3px solid #4c1d95; border-radius:50% 50% 0 0; }
+    }
+    .hamster-corner .snout {
+      position:absolute; left:45px; top:33px; width:12px; height:8px; background:#fdf2ff; border:2px solid #4c1d95; border-radius:50%;
+    }
+    .hamster-corner .whiskers {
+      position:absolute; top:34px; width:16px; height:2px; background:#4c1d95; border-radius:999px;
+    }
+    .hamster-corner .whiskers.left { left:20px; transform:rotate(-18deg); }
+    .hamster-corner .whiskers.right { left:58px; transform:rotate(18deg); }
+    .hamster-corner .paw {
+      position:absolute; width:10px; height:16px; background:#d9bdfd; border:3px solid #4c1d95; border-radius:12px; bottom:12px;
+    }
+    .hamster-corner .paw.left { left:25px; }
+    .hamster-corner .paw.right { left:58px; }
+    .hamster-corner .tail {
+      position:absolute; right:0; top:42px; width:20px; height:10px; border:3px solid #4c1d95; border-left:none; border-radius:0 16px 16px 0; background:#d9bdfd; transform:rotate(18deg);
+    }
+    .treat-scene {
+      position:relative; display:flex; justify-content:space-between; align-items:flex-end;
+      width:min(520px, 100%); height:155px; margin:20px auto 8px; padding:0 34px;
+    }
+    .hamster, .gift-cat { position:relative; width:112px; height:112px; flex:0 0 112px; }
+    .hamster { animation:characterPop .9s cubic-bezier(.2,.8,.3,1.2) both; }
+    .gift-cat { animation:catPopBob 3.2s .25s cubic-bezier(.2,.8,.3,1.2) infinite; }
+    @keyframes characterPop { from { opacity:0; transform:translateY(35px) scale(.65); } to { opacity:1; transform:translateY(0) scale(1); } }
+    @keyframes catPopBob {
+      0% { opacity:0; transform:translateY(35px) scale(.65); }
+      22% { opacity:1; transform:translateY(0) scale(1); }
+      58% { opacity:1; transform:translateY(-8px) scale(1); }
+      78%, 100% { opacity:1; transform:translateY(0) scale(1); }
+    }
+    .hamster .head, .gift-cat .head { position:absolute; left:28px; top:16px; width:58px; height:50px; border:3px solid #7c3f57; border-radius:50%; z-index:2; }
+    .hamster .head { background:linear-gradient(#f8d9be,#dda486); }
+    .gift-cat .head { background:linear-gradient(#fff4fb,#f3c8df); border-color:#8b5cf6; }
+    .hamster .ear, .gift-cat .ear { position:absolute; top:5px; width:23px; height:23px; border:3px solid #7c3f57; border-radius:50%; z-index:1; }
+    .hamster .ear { background:#efb89f; }
+    .gift-cat .ear { background:#f3c8df; border-color:#8b5cf6; border-radius:60% 60% 0 0; transform:rotate(-18deg); }
+    .hamster .ear.left, .gift-cat .ear.left { left:25px; }
+    .hamster .ear.right, .gift-cat .ear.right { right:25px; transform:rotate(18deg); }
+    .hamster .eye, .gift-cat .eye { position:absolute; top:38px; width:7px; height:7px; background:#32152d; border-radius:50%; z-index:3; }
+    .hamster .eye.left, .gift-cat .eye.left { left:44px; }
+    .hamster .eye.right, .gift-cat .eye.right { right:44px; }
+    .hamster .eye { width:13px; height:7px; background:transparent; border-top:3px solid #6f3548; border-radius:50% 50% 0 0; }
+    .hamster .eye.left { left:40px; transform:rotate(-10deg); }
+    .hamster .eye.right { right:40px; transform:rotate(10deg); }
+    .gift-cat .eye.right { animation:catBlink 4.5s ease-in-out infinite; }
+    @keyframes catBlink { 0%,43%,55%,100% { transform:scaleY(1); } 48%,51% { transform:scaleY(.2); } }
+    .hamster .body, .gift-cat .body { position:absolute; left:18px; top:61px; width:76px; height:46px; border:3px solid #7c3f57; border-radius:45% 45% 30% 30%; }
+    .hamster .body { background:linear-gradient(#f2c4a9,#cf8e78); }
+    .gift-cat .body { background:linear-gradient(#f3c8df,#c084c8); border-color:#8b5cf6; }
+    .hamster .paw, .gift-cat .paw { position:absolute; top:72px; width:23px; height:17px; border-radius:50%; z-index:4; }
+    .hamster .paw { right:-2px; background:#efb89f; border:3px solid #7c3f57; }
+    .gift-cat .paw { left:-2px; background:#f3c8df; border:3px solid #8b5cf6; transform:rotate(-12deg); animation:offerArm 2.4s ease-in-out infinite; }
+    @keyframes offerArm { 0%,100% { transform:translateY(3px) rotate(-12deg); } 50% { transform:translateY(-9px) rotate(-12deg); } }
+    .ice-cream { position:absolute; left:-27px; top:47px; width:22px; height:58px; z-index:5; transform:rotate(-12deg); animation:offerIceCream 2.4s ease-in-out infinite; }
+    @keyframes offerIceCream { 0%,100% { transform:translateY(3px) rotate(-12deg); } 50% { transform:translateY(-9px) rotate(-12deg); } }
+    .ice-cream .cone { position:absolute; left:4px; bottom:0; width:15px; height:36px; background:repeating-linear-gradient(135deg,#e9a95d 0 4px,#d98b42 4px 6px); clip-path:polygon(0 0,100% 0,50% 100%); border:2px solid #a85f32; }
+    .ice-cream .scoop { position:absolute; left:0; top:0; width:24px; height:26px; border-radius:50% 50% 45% 45%; background:radial-gradient(circle at 35% 25%,#fff,#ffb6d2 42%,#f472a5); border:3px solid #b43d70; }
+    .promise-sky { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
+    .sky-object { position:absolute; color:#fff4b8; line-height:1; text-shadow:0 0 14px rgba(255,244,184,.95); animation:skyFloat 7s ease-in-out forwards; }
+    .sky-object.moon { font-size:3rem; color:#fff0a6; }
+    .sky-object.star { font-size:1.8rem; color:#fff; }
+    @keyframes skyFloat { 0% { opacity:0; transform:translate(0,35px) scale(.75) rotate(0); } 15% { opacity:.9; } 100% { opacity:0; transform:translate(var(--drift),-180px) scale(1) rotate(var(--turn)); } }
+    @media(max-width:560px) { .treat-scene { padding:0 4px; } .hamster, .gift-cat { transform:scale(.85); } }
+    body { opacity:0; transition:opacity .35s ease; }
+    body.page-visible { opacity:1; }
+    body.page-leaving { opacity:0; }
+  </style>
+</head>
+<body>
+  <div class="promise-sky" aria-hidden="true"></div>
+  <main class="wrap">
+    <div class="sparkles">✦ ✦ ✦</div>
+    <h1>My promise to you</h1>
+    <p class="message">
+      I promise you that all of my love is only for you and you alone. I will always support you and love you in everything you want to achieve in life. No matter what dreams you have or what path you choose, I’ll always be here supporting you, cheering you on, and being proud of you, mylove.
+      <br><br>
+      I promise to always stay by your side, no matter what happens or how difficult life gets. Whenever you need someone to help you, listen to you, encourage you, or simply be there with you, I’ll be here. I’ll keep supporting you, cheering for you, and loving you through every step of the way.
+      <br><br>
+      I may not be able to promise that life will always be easy, but I promise that you’ll never have to face it alone. I’ll always be here, mylove, loving you with all my heart. ❤️❤️❤️
+    </p>
+
+    <div class="treat-scene" aria-label="A hamster and a cat sharing ice cream">
+      <div class="hamster" aria-hidden="true">
+        <span class="ear left"></span><span class="ear right"></span><span class="head"></span><span class="body"></span>
+        <span class="eye left"></span><span class="eye right"></span><span class="paw"></span>
+      </div>
+      <div class="gift-cat" aria-hidden="true">
+        <span class="ear left"></span><span class="ear right"></span><span class="head"></span><span class="body"></span>
+        <span class="eye left"></span><span class="eye right"></span><span class="paw"></span>
+        <span class="ice-cream"><span class="scoop"></span><span class="cone"></span></span>
+      </div>
+    </div>
+
+    <div class="memory-gallery" aria-label="Promise memories gallery">
+      <div class="hamster-corner left" aria-hidden="true">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="snout"></div>
+        <div class="whiskers left"></div>
+        <div class="whiskers right"></div>
+        <div class="paw left"></div>
+        <div class="paw right"></div>
+        <div class="tail"></div>
+      </div>
+
+      <div class="hamster-corner right" aria-hidden="true">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="snout"></div>
+        <div class="whiskers left"></div>
+        <div class="whiskers right"></div>
+        <div class="paw left"></div>
+        <div class="paw right"></div>
+        <div class="tail"></div>
+      </div>
+
+      <img class="memory-photo" src="Images/lovey.jpg.jpg" alt="Promise memory 1">
+      <img class="memory-photo" src="Images/caring and supportive.jpg.jpg" alt="Promise memory 2">
+      <img class="memory-photo" src="Images/My favgirl.jpg.jpg" alt="Promise memory 3">
+    </div>
+
+    <p><a class="back-link" href="monthsary.html">← Back to our monthsary</a></p>
+  </main>
+  <script src="promise-hearts.js"></script>
+  <script src="page-transitions.js"></script>
+</body>
+</html>

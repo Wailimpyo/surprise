@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Our Monthsary</title>
+	<style>
+		:root { --rose:#ff477e; --pink:#ff9db8; --ink:#3a1650; }
+		* { box-sizing:border-box; }
+		body { margin:0; min-height:100vh; position:relative; color:var(--ink); font-family:Georgia,serif; background:radial-gradient(circle at top,#f6ecff,#d8b4fe 45%,#a855f7); overflow-x:hidden; }
+		.sky-burst { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+		.sky-particle { position:absolute; opacity:0; text-shadow:0 0 12px rgba(255,255,255,0.8); animation:sky-pop 1.8s ease-out forwards; }
+		.sky-particle.star { color:#fff; font-size:1.8rem; }
+		.sky-particle.moon { color:#fff0a6; font-size:3.4rem; }
+		@keyframes sky-pop {
+			0% { transform:translateY(10px) scale(0.4); opacity:0; }
+			20% { opacity:1; }
+			50% { transform:translateY(-18px) scale(1.15); opacity:1; }
+			100% { transform:translateY(-42px) scale(0.4); opacity:0; }
+		}
+		.wrap { position:relative; z-index:1; max-width:1050px; margin:auto; padding:42px 20px 70px; text-align:center; }
+		h1 { font-size:clamp(2.5rem,7vw,5.5rem); margin:10px 0 5px; color:#6b21a8; }
+		.subtitle { font-size:1.2rem; margin:0 auto 25px; }
+		.heart-stage { width:100%; height:300px; margin:0 auto; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:center; gap:16px; perspective:700px; position:relative; }
+		.heart { grid-column:1; position:relative; justify-self:center; width:110px; height:110px; transform:rotate(-45deg); background:var(--rose); box-shadow:0 0 35px #ff477e; }
+		.heart:before,.heart:after { content:""; position:absolute; width:110px; height:110px; background:var(--rose); border-radius:50%; }
+		.heart:before { top:-55px; left:0; } .heart:after { left:55px; top:0; }
+		.bouquet { position:relative; justify-self:center; width:220px; height:210px; filter:drop-shadow(0 8px 8px #6b21a855); }
+		.flower { position:absolute; width:56px; height:48px; border-radius:48% 48% 45% 45%; border:3px solid #a51d32; background:linear-gradient(90deg,#b51c32,#f05a68 48%,#bd2035); clip-path:polygon(0 0,20% 17%,50% 0,80% 17%,100% 0,94% 72%,78% 100%,50% 78%,22% 100%,6% 72%); box-shadow:0 4px 7px rgba(102,16,25,.22); z-index:3; }
+		.flower::after { content:none; }
+		.flower.one { left:8px; top:54px; transform:scale(.9); }.flower.two { left:78px; top:28px; background:linear-gradient(90deg,#a91c54,#ee6d9f 48%,#b62969); }.flower.three { right:8px; top:56px; transform:scale(.9); background:linear-gradient(90deg,#60449e,#b59ae8 48%,#7655b1); }.flower.four { left:80px; top:82px; transform:scale(.78); background:linear-gradient(90deg,#c45b16,#f6ad3b 48%,#d87b1d); }.flower.five,.flower.six { display:none; }
+		.stem { position:absolute; left:105px; top:76px; width:9px; height:114px; border-radius:9px; background:#4d9b55; transform:rotate(8deg); z-index:1; }
+		.stem::before, .stem::after { content:""; position:absolute; width:7px; height:82px; border-radius:9px; background:#4d9b55; transform-origin:bottom; }.stem::before { transform:rotate(-16deg); left:-25px; top:10px; }.stem::after { transform:rotate(17deg); right:-25px; top:5px; }
+		.tulip-stem { position:absolute; width:6px; border-radius:8px; background:linear-gradient(90deg,#2f783d,#75bd61,#357f42); z-index:2; transform-origin:top; }
+		.tulip-stem.one { left:33px; top:88px; height:88px; transform:rotate(-7deg); }.tulip-stem.two { left:103px; top:60px; height:116px; transform:rotate(3deg); }.tulip-stem.three { left:181px; top:92px; height:84px; transform:rotate(8deg); }.tulip-stem.four { left:101px; top:112px; height:64px; transform:rotate(-4deg); }
+		.leaf { position:absolute; width:52px; height:24px; border-radius:100% 0; background:#65b86b; transform:rotate(-28deg); z-index:2; }.leaf.left { left:28px; top:132px; }.leaf.right { right:22px; top:145px; transform:rotate(205deg); }
+		.wrap-bouquet { position:absolute; bottom:0; left:48px; width:124px; height:78px; background:linear-gradient(110deg,#f9c74f,#f9844a); clip-path:polygon(8% 0,92% 0,72% 100%,28% 100%); transform:rotate(3deg); z-index:2; }
+		.sunflower { position:absolute; left:50%; bottom:-32px; width:210px; height:230px; transform:translateX(-50%); opacity:0; }
+		.sunflower-stem { position:absolute; left:87px; bottom:0; width:9px; height:125px; border-radius:9px; background:linear-gradient(90deg,#2f783d,#75bd61,#357f42); }
+		.sunflower-leaf { position:absolute; width:52px; height:24px; border-radius:100% 0; background:linear-gradient(135deg,#8bd477,#28643a); box-shadow:inset 4px -3px 0 rgba(34,100,48,.22); }
+		.sunflower-leaf.left { left:43px; bottom:46px; transform:rotate(-30deg); }.sunflower-leaf.right { right:37px; bottom:70px; transform:rotate(205deg); }
+		.sunflower-head { position:absolute; left:50%; top:42px; width:140px; height:140px; transform:translateX(-50%); }
+		.sunflower-petal { position:absolute; left:55px; top:1px; width:30px; height:70px; border-radius:50% 50% 45% 45%; background:linear-gradient(#ffe76b,#f4a51c); border:2px solid #c78313; transform-origin:15px 67px; transform:rotate(var(--angle)) scale(0); }
+		.sunflower-center { position:absolute; left:35px; top:35px; width:70px; height:70px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#a55b1c,#552b12 72%); border:3px solid #6b3512; z-index:2; }
+		.center-cat { grid-column:2; justify-self:center; margin-left:18px; width:126px; height:150px; margin:0 0 0 18px; object-fit:cover; object-position:center; border:3px solid rgba(255,255,255,.9); border-radius:22px; box-shadow:0 8px 12px #6b21a855; }
+		.bouquet { grid-column:3; }
+		.spark { position:absolute; width:8px; height:8px; background:#fff; border-radius:50%; opacity:0; }
+		.spark:nth-child(2){--x:-150px;--y:-70px}.spark:nth-child(3){--x:155px;--y:-50px;animation-delay:.3s}.spark:nth-child(4){--x:-130px;--y:75px;animation-delay:.6s}.spark:nth-child(5){--x:140px;--y:85px;animation-delay:.9s}.spark:nth-child(6){--x:0px;--y:-120px;animation-delay:1.2s}
+		.choices { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:15px; }
+		button { border:0; border-radius:18px; padding:16px 12px 20px; color:white; background:linear-gradient(135deg,#7e22ce,#c026d3); font:inherit; font-size:1.05rem; cursor:pointer; box-shadow:0 7px 15px #6b21a855; transition:.2s; }
+		button:hover { transform:translateY(-4px) scale(1.02); }
+		.choice-art { display:flex; justify-content:center; align-items:center; gap:12px; margin-bottom:9px; font-family:Arial,sans-serif; font-size:2rem; line-height:1; }
+		.choice-art .heart-icon { color:#ffb3c6; text-shadow:0 0 10px #fff8; }
+		.choice-art .flower-icon { color:#ffd166; text-shadow:0 0 10px #fff8; }
+		.message { width:fit-content; min-height:0; margin:24px auto; max-width:calc(100% - 24px); padding:16px 22px; border-radius:18px; background:#ffffffb8; box-shadow:0 8px 25px #6b21a822; font-size:1.25rem; line-height:1.45; }
+		.gallery { display:flex; justify-content:center; flex-wrap:wrap; gap:14px; margin-top:22px; }
+		.photo { width:190px; height:150px; border-radius:18px; object-fit:cover; border:5px solid white; box-shadow:0 5px 15px #6b21a844; background:linear-gradient(135deg,#e9d5ff,#fff); }
+		.hint { font:14px Arial,sans-serif; opacity:.7; margin-top:12px; }
+		body { opacity:0; transition:opacity .35s ease; }
+		body.page-visible { opacity:1; }
+		body.page-leaving { opacity:0; }
+		body.welcome-pending { overflow:hidden; }
+		body.welcome-pending .wrap { visibility:hidden; opacity:0; }
+		.welcome-screen { position:fixed; inset:0; z-index:5; display:grid; place-items:center; padding:24px; text-align:center; background:radial-gradient(circle at 50% 35%,#fff8fc 0,#f6ecff 38%,#d8b4fe 74%,#a855f7 120%); transition:opacity 1.3s ease,visibility 1.3s ease; }
+		.welcome-content { max-width:520px; animation:welcome-arrive 1.2s ease both; }
+		.welcome-heart { display:block; margin-bottom:18px; color:#ff477e; font-size:3rem; text-shadow:0 0 24px #ff9db8; animation:welcome-pulse 1.8s ease-in-out infinite alternate; }
+		.welcome-title { margin:0 0 10px; color:#6b21a8; font-size:clamp(2rem,8vw,3.6rem); }
+		.welcome-copy { margin:0 0 28px; font-size:1.2rem; }
+		button.welcome-button { padding:17px 30px; border:2px solid #fff9; border-radius:999px; background:linear-gradient(135deg,#e83e72,#a21caf); font-size:1.15rem; box-shadow:0 10px 28px #6b21a855; }
+		button.welcome-button:hover { transform:translateY(-3px) scale(1.03); }
+		body.welcome-revealed .welcome-screen { opacity:0; visibility:hidden; pointer-events:none; }
+		body.welcome-revealed .wrap { visibility:visible; animation:home-reveal 2.2s cubic-bezier(.2,.7,.25,1) both; }
+		@keyframes welcome-arrive { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+		@keyframes welcome-pulse { from { transform:scale(.94); } to { transform:scale(1.08); } }
+		@keyframes home-reveal { from { opacity:0; transform:translateY(26px) scale(.985); } to { opacity:1; transform:translateY(0) scale(1); } }
+		@media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; } }
+		@media(max-width:650px){.choices{grid-template-columns:1fr}.heart-stage{height:220px;grid-template-columns:105px 100px 145px;column-gap:18px}.heart{width:82px;height:82px}.heart:before,.heart:after{width:82px;height:82px}.heart:before{top:-41px}.heart:after{left:41px}.center-cat{width:96px;height:115px}.bouquet{width:145px;height:145px;transform:scale(.78)}.photo{width:145px;height:120px}}
+	</style>
+</head>
+<body class="welcome-pending">
+	<section class="welcome-screen" id="welcome-screen" aria-labelledby="welcome-title">
+		<div class="welcome-content">
+			<span class="welcome-heart" aria-hidden="true">♥</span>
+			<h1 class="welcome-title" id="welcome-title">A little surprise for you</h1>
+			<p class="welcome-copy">Made with all my love, just for you.</p>
+			<button class="welcome-button" id="welcome-button" type="button">click here mylove</button>
+		</div>
+	</section>
+	<div class="sky-burst" aria-hidden="true"></div>
+	<main class="wrap">
+		<p>✦ A little universe made just for you ✦</p>
+		<h1>Happy Monthsary, my love</h1>
+		<p class="subtitle">Every day with you is my favorite chapter.</p>
+		<section class="heart-stage" aria-label="A rotating heart with a sparkling burst">
+			<div class="heart"></div><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i>
+			<img class="center-cat" src="Images/cat.jpg.jpg" alt="A cute cat portrait">
+			<div class="bouquet" aria-label="A single sunflower">
+				<div class="sunflower">
+					<div class="sunflower-head">
+						<span class="sunflower-petal" style="--angle:0deg"></span><span class="sunflower-petal" style="--angle:45deg"></span><span class="sunflower-petal" style="--angle:90deg"></span><span class="sunflower-petal" style="--angle:135deg"></span><span class="sunflower-petal" style="--angle:180deg"></span><span class="sunflower-petal" style="--angle:225deg"></span><span class="sunflower-petal" style="--angle:270deg"></span><span class="sunflower-petal" style="--angle:315deg"></span>
+						<div class="sunflower-center"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<nav class="choices" aria-label="Monthsary memories">
+			<button data-page="love" data-message="Thank you for making ordinary moments feel magical. Your laugh is my favorite sound, and your heart is my favorite place to be."><span class="choice-art" aria-hidden="true"><span class="heart-icon">♥</span><span class="flower-icon">✿</span></span>Why I love you</button>
+			<button data-page="promise" data-message="I promise to keep choosing you: through adventures, quiet mornings, silly dances, and every beautiful surprise life brings us."><span class="choice-art" aria-hidden="true"><span class="heart-icon">♥</span><span class="flower-icon">❀</span></span>My promise to you</button>
+			<button data-page="chapter" data-message="Here is to more sunsets, inside jokes, hand-in-hand walks, and a lifetime of memories that are ours and ours alone."><span class="choice-art" aria-hidden="true"><span class="heart-icon">♥</span><span class="flower-icon">✾</span></span>Our next chapter</button>
+		</nav>
+		<p class="message" id="message">Choose a note above mylove💗💗💗</p>
+	</main>
+	<script src="monthsary.js"></script>
+	<script src="page-transitions.js"></script>
+</body>
+</html>

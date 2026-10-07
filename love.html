@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why I love you</title>
+  <style>
+    :root { --rose:#ff477e; --pink:#ff9db8; --ink:#3a1650; }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      color:var(--ink); font-family:Georgia,serif;
+      background:radial-gradient(circle at top,#f6ecff,#d8b4fe 45%,#a855f7);
+    }
+    .wrap {
+      width:min(900px, 92vw); margin:40px auto; padding:42px 24px 32px;
+      text-align:center; background:rgba(255,255,255,0.36); border:1px solid rgba(255,255,255,0.5);
+      border-radius:28px; box-shadow:0 15px 35px rgba(107,33,168,0.18);
+      position:relative; z-index:1;
+    }
+    h1 { font-size:clamp(2.3rem,6vw,4.5rem); margin:10px 0 18px; color:#6b21a8; }
+    .message {
+      max-width:720px; margin:0 auto; padding:26px 22px;
+      border-radius:22px; background:#fffafc; box-shadow:0 8px 20px rgba(107,33,168,0.12);
+      font-size:clamp(1.1rem,2vw,1.4rem); line-height:1.7;
+    }
+    .back-link { margin-top:28px; display:inline-block; color:#6b21a8; font-weight:600; text-decoration:none; }
+    .back-link:hover { text-decoration:underline; }
+    .sparkles { font-size:2rem; letter-spacing:0.15em; color:#ff5d8f; }
+    .memory-gallery {
+      position:relative; display:flex; justify-content:center; align-items:center; gap:14px; flex-wrap:wrap;
+      max-width:650px; margin:25px auto 0; padding:18px 14px 8px;
+    }
+    .memory-photo {
+      width:150px; height:120px; object-fit:cover; border-radius:18px; border:4px solid rgba(255,255,255,0.9);
+      box-shadow:0 8px 18px rgba(107,33,168,0.12); background:linear-gradient(135deg,#f3e8ff,#fff);
+    }
+    .hamster-corner {
+      position:absolute; top:-14px; width:96px; height:96px; z-index:2;
+      filter:drop-shadow(0 8px 12px rgba(76,29,149,0.16)); animation:hamsterJump 1.8s ease-in-out infinite;
+    }
+    .hamster-corner.left { left:-36px; }
+    .hamster-corner.right { right:-18px; animation-delay:.35s; }
+    @keyframes hamsterJump {
+      0%,100% { transform:translateY(0); }
+      45% { transform:translateY(-18px); }
+      60% { transform:translateY(-18px); }
+    }
+    .hamster-corner .body {
+      position:absolute; left:16px; top:42px; width:58px; height:32px; background:linear-gradient(180deg,#e9d5ff,#c4b5fd);
+      border:3px solid #4c1d95; border-radius:22px 22px 18px 18px; overflow:hidden;
+    }
+    .hamster-corner .head {
+      position:absolute; left:30px; top:17px; width:34px; height:26px; background:linear-gradient(180deg,#f8ebff,#e7d2ff); border:3px solid #4c1d95; border-radius:50%;
+    }
+    .hamster-corner .ear {
+      position:absolute; top:8px; width:12px; height:12px; background:#f7d6ff; border:3px solid #4c1d95; border-radius:50%;
+    }
+    .hamster-corner .ear.left { left:28px; }
+    .hamster-corner .ear.right { left:54px; }
+    .hamster-corner .eye {
+      position:absolute; top:26px; width:5px; height:5px; background:#2d0d4a; border-radius:50%;
+      animation:hamsterEyes 4.5s ease-in-out infinite;
+    }
+    .hamster-corner .eye.left { left:41px; }
+    .hamster-corner .eye.right { left:53px; }
+    @keyframes hamsterEyes {
+      0%,25%,75%,100% { width:5px; height:5px; background:#2d0d4a; border:0; border-radius:50%; }
+      45%,60% { width:12px; height:7px; background:transparent; border-top:3px solid #4c1d95; border-radius:50% 50% 0 0; }
+    }
+    .hamster-corner .snout {
+      position:absolute; left:45px; top:33px; width:12px; height:8px; background:#fdf2ff; border:2px solid #4c1d95; border-radius:50%;
+    }
+    .hamster-corner .whiskers {
+      position:absolute; top:34px; width:16px; height:2px; background:#4c1d95; border-radius:999px;
+    }
+    .hamster-corner .whiskers.left { left:20px; transform:rotate(-18deg); }
+    .hamster-corner .whiskers.right { left:58px; transform:rotate(18deg); }
+    .hamster-corner .paw {
+      position:absolute; width:10px; height:16px; background:#d9bdfd; border:3px solid #4c1d95; border-radius:12px; bottom:12px;
+    }
+    .hamster-corner .paw.left { left:25px; }
+    .hamster-corner .paw.right { left:58px; }
+    .hamster-corner .tail {
+      position:absolute; right:0; top:42px; width:20px; height:10px; border:3px solid #4c1d95; border-left:none; border-radius:0 16px 16px 0; background:#d9bdfd; transform:rotate(18deg);
+    }
+    body { opacity:0; transition:opacity .35s ease; }
+    body.page-visible { opacity:1; }
+    body.page-leaving { opacity:0; }
+
+    .sky-burst {
+      position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0;
+    }
+    .sky-particle {
+      position:absolute; left:50%; color:#fff4b8; text-shadow:0 0 14px rgba(255,244,184,0.95); opacity:0;
+      animation:popSky 1.4s cubic-bezier(.2,.8,.3,1) forwards;
+    }
+    .sky-particle.moon { font-size:4.5rem; color:#fff0a6; }
+    .sky-particle.star { font-size:2.7rem; color:#fff; }
+    @keyframes popSky {
+      0% { transform:scale(0); opacity:0; }
+      35% { transform:scale(1.35); opacity:1; }
+      55% { transform:scale(.92); opacity:1; }
+      75% { transform:scale(1.08); opacity:.95; }
+      100% { transform:scale(0); opacity:0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sky-burst" aria-hidden="true"></div>
+  <main class="wrap">
+    <div class="sparkles">✦ ✦ ✦</div>
+    <h1>Why I love you</h1>
+    <p class="message">
+      Thank you for making my life better in ways no one else can. Thank you for loving me for the way I am and accepting me for who I was. I’m especially grateful for all those little moments we’ve shared, like when we would stay up talking, laugh about the most random things, and make memories together that I’ll always keep close to my heart. Those simple moments with you are some of my favorite memories, and they remind me of how lucky I am to have you.
+
+I just want you to know that I will always love you, no matter what happens. I’ll always be by your side to support you, cheer you on, and always be proud of you, mylove. No matter how hard things get or how much life changes, I’ll always choose to stay by your side and cherish everything we’ve been through together.
+
+I love you always and forever, mylovee. ❤️💞💞
+    </p>
+
+    <div class="memory-gallery" aria-label="Favorite moments gallery">
+      <div class="hamster-corner left" aria-hidden="true">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="snout"></div>
+        <div class="whiskers left"></div>
+        <div class="whiskers right"></div>
+        <div class="paw left"></div>
+        <div class="paw right"></div>
+        <div class="tail"></div>
+      </div>
+
+      <div class="hamster-corner right" aria-hidden="true">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="snout"></div>
+        <div class="whiskers left"></div>
+        <div class="whiskers right"></div>
+        <div class="paw left"></div>
+        <div class="paw right"></div>
+        <div class="tail"></div>
+      </div>
+
+      <img src="Images/i love you.jpg.jpg" class="memory-photo" alt="Memory 1">
+      <img class="memory-photo" src="Images/always beautiful.jpg.jpg" alt="Memory 2">
+      <img class="memory-photo" src="Images/mylove.jpg.jpg" alt="Memory 3">
+    </div>
+
+    <p><a class="back-link" href="monthsary.html">← Back to our monthsary</a></p>
+  </main>
+  <script src="love-hearts.js"></script>
+  <script src="page-transitions.js"></script>
+</body>
+</html>
